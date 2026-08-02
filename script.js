@@ -1,22 +1,33 @@
+let ideiaAtual = ""; // variável global para guardar a última ideia
+
+function novaIdeia() {
+  if (usadas.length === ideias.length) {
+    usadas = [];
+  }
+  
+  let restante = ideias.filter(i => !usadas.includes(i));
+  let sorteio = restante[Math.floor(Math.random() * restante.length)];
+  
+  usadas.push(sorteio);
+  ideiaAtual = sorteio; // guarda a ideia atual
+  
+  document.getElementById("output").innerText = "💡 Ideia: " + sorteio;
+  document.getElementById("roteiro").innerText = 
+    "📜 Roteiro:\n" +
+    "Introdução: Apresente o tema \"" + sorteio + "\".\n" +
+    "Passo 1: Explique o contexto.\n" +
+    "Passo 2: Mostre exemplos práticos.\n" +
+    "Passo 3: Dê dicas ou comparações.\n" +
+    "Conclusão: Convide o público a interagir.";
+}
+
 function gerarCapa() {
-  // Pega a ideia atual
-  const ideiaAtual = document.getElementById("output").innerText.replace("💡 Ideia: ", "");
+  if (!ideiaAtual) {
+    document.getElementById("capa").innerText = "⚠️ Primeiro gere uma ideia!";
+    return;
+  }
 
-  // Mostra mensagem de carregamento
-  document.getElementById("capa").innerText = "🎨 Gerando capa para: " + ideiaAtual + "...";
-
-  // Aqui você integraria a chamada para uma API de geração de imagens
-  // Exemplo fictício:
-  // fetch("https://api.gerador-imagens.com/create", {
-  //   method: "POST",
-  //   body: JSON.stringify({ prompt: ideiaAtual })
-  // })
-  // .then(res => res.json())
-  // .then(data => {
-  //   document.getElementById("capa").innerHTML = "🎨 Capa gerada:<br><img src='" + data.url + "'>";
-  // });
-
-  // Para teste simples, podemos usar uma imagem aleatória de jogos/tecnologia:
+  // Exemplo simples com imagens aleatórias
   const imagensTeste = [
     "https://picsum.photos/seed/games/400/250",
     "https://picsum.photos/seed/tech/400/250",
@@ -24,5 +35,6 @@ function gerarCapa() {
     "https://picsum.photos/seed/pcgamer/400/250"
   ];
   let sorteio = imagensTeste[Math.floor(Math.random() * imagensTeste.length)];
-  document.getElementById("capa").innerHTML = "🎨 Capa gerada:<br><img src='" + sorteio + "'>";
+  
+  document.getElementById("capa").innerHTML = "🎨 Capa para \"" + ideiaAtual + "\":<br><img src='" + sorteio + "'>";
 }
